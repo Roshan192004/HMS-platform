@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .order-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2196f3;
+        }
+
+        .order-info h3 {
+            margin: 0;
+            color: #1565c0;
+        }
+
+        .cart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            border-bottom: 2px solid #eee;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        tfoot td {
+            padding: 20px 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .total-price {
+            color: #27ae60;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        .actions {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .link {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219150;
+        }
+
+        .btn-disabled {
+            background: #95a5a6;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Shopping Cart</h2>
+
+    {% if current_order %}
+    <div class="order-info">
+        <h3>Fulfilling Order for: {{ current_order.patient_name }}</h3>
+    </div>
+    {% endif %}
+
+    <div class="cart-card">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th class="center">Price</th>
+                    <th class="center">Quantity</th>
+                    <th class="right">Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.medicine.name }}</td>
+                    <td class="center">${{ item.medicine.price }}</td>
+                    <td class="center">{{ item.quantity }}</td>
+                    <td class="right">${{ item.total_price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-cart">
+                        Your cart is empty.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            {% if cart_items %}
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="right">Total Amount:</td>
+                    <td class="right total-price">${{ total_price }}</td>
+                </tr>
+            </tfoot>
+            {% endif %}
+        </table>
+
+        <div class="actions">
+            <a href="{% url 'medicine_list' %}" class="link">
+                Continue Shopping
+            </a>
+
+            {% if cart_items and current_order %}
+                <a href="{% url 'checkout' %}" class="btn btn-success">
+                    Generate Bill & Complete Order
+                </a>
+            {% elif cart_items %}
+                <a href="#" onclick="alert('Please accept an order first via Pending Orders to checkout.')"
+                   class="btn btn-disabled">
+                    Generate Bill
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

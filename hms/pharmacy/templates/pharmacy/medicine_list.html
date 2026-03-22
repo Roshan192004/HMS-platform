@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medicine Inventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .inventory-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .inventory-header h2 {
+            font-size: 28px;
+            color: #2c3e50;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 5px;
+        }
+
+        .search-input {
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            width: 250px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .inventory-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        .low-stock {
+            color: red;
+            font-weight: bold;
+        }
+
+        .add-cart-link {
+            color: #27ae60;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="inventory-container">
+
+        <div class="inventory-header">
+            <h2>Medicine Inventory</h2>
+
+            <div class="header-actions">
+
+                <form action="{% url 'medicine_list' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search medicines..." value="{{ query|default:'' }}"
+                        class="search-input">
+
+                    <button type="submit" class="search-btn">
+                        Search 🔍
+                    </button>
+
+                    {% if query %}
+                    <a href="{% url 'medicine_list' %}" style="padding:10px;">Clear</a>
+                    {% endif %}
+                </form>
+
+                <a href="{% url 'cart_view' %}" class="cart-btn">
+                    View Cart 🛒
+                </a>
+
+            </div>
+        </div>
+
+        <div class="inventory-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Manufacturer</th>
+                        <th>Stock</th>
+                        <th>Price</th>
+                        <th>Expiry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for med in medicines %}
+                    <tr>
+                        <td>{{ med.name }}</td>
+                        <td>{{ med.manufacturer }}</td>
+                        <td>
+                            {% if med.stock < 50 %} <span class="low-stock">
+                                {{ med.stock }} (Low)
+                                </span>
+                                {% else %}
+                                {{ med.stock }}
+                                {% endif %}
+                        </td>
+                        <td>${{ med.price }}</td>
+                        <td>{{ med.expiry_date }}</td>
+                        <td>
+                            <a href="{% url 'add_to_cart' med.id %}" class="add-cart-link">
+                                Add to Cart 🛒
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="no-data">
+                            No medicines found in inventory.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

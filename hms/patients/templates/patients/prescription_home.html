@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription & Pharmacy</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .prescription-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            color: #2563eb;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-weight: 500;
+        }
+
+        .prescription .button {
+            background-color: #2563eb;
+        }
+
+        .pharmacy .button {
+            background-color: #16a34a;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="prescription-container">
+
+        <!-- View Prescription Card -->
+        <div class="card prescription">
+            <div class="card-content">
+                <div class="icon-container">
+                    📄
+                </div>
+                <h2>View Prescription</h2>
+                <p>Access and review your medical prescriptions, dosage information, and treatment plans.</p>
+                <!-- <a> -->
+                    <button class="button" onclick="window.location.href='{% url 'my_prescription' %}'">Open Prescriptions</button>
+                <!-- </a> -->
+            </div>
+        </div>
+
+        <!-- Get Medicines Card -->
+        <a href="{% url 'order_medicine' %}" style="text-decoration: none; color: inherit;">
+            <div class="card pharmacy">
+                <div class="card-content">
+                    <div class="icon-container">
+                        💊
+                    </div>
+                    <h2>Get Medicines</h2>
+                    <p>Order your prescribed medicines online and get them delivered to your doorstep.</p>
+                    <button class="button">Order Medicines</button>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{% extends 'admin_dashboard/base.html' %}
+{% block title %}{% if report %}Edit{% else %}Create{% endif %} Report — HMS{% endblock %}
+{% block content %}
+<div class="panel">
+  <div class="panel-header">
+    <h2>{% if report %}Edit{% else %}New{% endif %} Report</h2>
+  </div>
+  <div class="panel-body">
+    <form method="post" class="form">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.as_p }}
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'reports:list' %}" class="btn">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

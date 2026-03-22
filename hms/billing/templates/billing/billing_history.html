@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bill History - HMS</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1e3c72;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #2a5298;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            color: #666;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .table-container h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-paid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-billed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 15px 20px;
+            background: #b22222;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: #8b0000;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Patient Panel</h2>
+        <div class="menu-item" onclick="window.location.href='/patients/view_patient_profile/'">My Profile</div>
+        <div class="menu-item" onclick="window.location.href='/appointments/book_appointment/'">Book Appointment</div>
+        <div class="menu-item" onclick="window.location.href='/appointments/patient_my_appointment/'">My Appointments</div>
+        <div class="menu-item" onclick="window.location.href='/reports/'">Lab Reports</div>
+        <div class="menu-item" onclick="window.location.href='/payments/'">Payments</div>
+        <div class="logout" onclick="if(confirm('Logout?')) window.location.href='/accounts/logout/';">Logout</div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>All Bills History</h1>
+            <p>Welcome, {{ patient.patient_name }}!</p>
+        </div>
+
+        <div class="table-container">
+            <h2>Complete Billing History</h2>
+            {% if bills %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bill #</th>
+                            <th>Amount</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in bills %}
+                        <tr>
+                            <td>{{ bill.bill_number }}</td>
+                            <td>₹{{ bill.amount }}</td>
+                            <td>{{ bill.bill_date|date:'d M Y' }}</td>
+                            <td>{{ bill.due_date|date:'d M Y' }}</td>
+                            <td>{{ bill.description|truncatewords:5 }}</td>
+                            <td>
+                                <span class="status-badge status-{{ bill.status }}">
+                                    {{ bill.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-data">
+                    <p>No billing history available.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

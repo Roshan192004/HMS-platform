@@ -1,0 +1,35 @@
+{% extends 'admin_dashboard/base.html' %}
+{% block title %}Billing — HMS{% endblock %}
+{% block content %}
+<div class="panel">
+  <div class="panel-header">
+    <h2>Billing</h2>
+    <a class="btn" href="{% url 'billing:create' %}"><i class="ico-add ico fas fa-plus"></i> New Bill</a>
+  </div>
+  <div class="panel-body">
+    {% if billings %}
+      <table class="table">
+        <thead><tr><th>#</th><th>Patient</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for billing in billings %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ billing.patient }}</td>
+            <td>${{ billing.amount }}</td>
+            <td><span class="badge badge-{{ billing.status|lower }}">{{ billing.get_status_display }}</span></td>
+            <td>{{ billing.date|date:'M d, Y' }}</td>
+            <td class="actions">
+              <a class="btn btn-sm" href="{% url 'billing:detail' billing.pk %}"><i class="fas fa-eye"></i></a>
+              <a class="btn btn-sm" href="{% url 'billing:edit' billing.pk %}"><i class="fas fa-edit"></i></a>
+              <a class="btn btn-sm btn-danger" href="{% url 'billing:delete' billing.pk %}"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="text-muted">No billing records yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

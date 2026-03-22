@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reception Dashboard</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .dashboard{
+            width:900px;
+            background:white;
+            border-radius:20px;
+            padding:40px;
+            box-shadow:0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:gray;
+            margin-bottom:40px;
+        }
+
+        .stats{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:40px;
+        }
+
+        .stat-card{
+            width:200px;
+            padding:25px;
+            background:#f4f6ff;
+            border-radius:15px;
+            text-align:center;
+            transition:0.3s;
+        }
+
+        .stat-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-number{
+            font-size:28px;
+            font-weight:bold;
+            margin-top:10px;
+            color:#4b4bff;
+        }
+
+        .actions{
+            display:grid;
+            grid-template-columns:1fr 1fr 1fr;
+            gap:20px;
+        }
+
+        .action-btn{
+            padding:20px;
+            border:none;
+            border-radius:15px;
+            background:#764ba2;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .action-btn:hover{
+            background:#5a3d82;
+            transform:scale(1.05);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <h1>Reception Dashboard</h1>
+    <div class="subtitle">Manage patients, appointments & hospital flow</div>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stat-card">
+            Total Patients
+            <div class="stat-number">{{ pcount|default:"NOT RECEIVED"}}</div>
+        </div>
+
+        <div class="stat-card">
+            Today's Appointments
+            <div class="stat-number">{{ a|default:"NO Appointments Yet"}}</div>
+        </div>
+
+        <div class="stat-card">
+            Total Doctors
+            <div class="stat-number">{{ dcount|default:"NOT RECEIVED"}}</div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <button class="action-btn" onclick="window.location.href='{% url 'register_patient' %}'">Register Patient</button>
+        <button class="action-btn" onclick="window.location.href='{% url 'book_appointment' %}'">Book Appointment</button>
+        <button class="action-btn" onclick="window.location.href='{% url 'all_patient'%}'">View Patient</button>
+        <button class="action-btn" onclick="window.location.href='{% url 'register_doctor' %}'">Register Doctor</button>
+        <button class="action-btn " onclick="window.location.href='{% url 'all_doctor' %}'">View Doctors</button>
+        <button class="action-btn" onclick="window.location.href='{% url 'home' %}'">Logout</button>
+    </div>
+
+</div>
+
+</body>
+</html>

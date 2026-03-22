@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        height: 100vh;
+        /* background-color: green; */
+    }
+
+    /* LEFT SIDE IMAGE */
+    .left {
+        width: 50%;
+        height: 100%;
+        border-radius: 5%;
+    }
+
+    .left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* RIGHT SIDE LOGIN FORM */
+    .right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #9eebc2;
+    }
+    .login-box:hover{
+        background-color: rgb(125, 228, 84);
+        cursor: pointer;
+    }
+
+    .login-box {
+        width: 350px;
+        padding: 40px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(219, 194, 194, 0.1);
+    }
+
+    .login-box h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-box input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #4ceb61;
+        border-radius: 5px;
+    }
+
+    .login-box button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .login-box button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- Left Image Section -->
+    <div class="left">
+        <img src="https://images.unsplash.com/photo-1581360742512-021d5b2157d8?q=80&w=879&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Hospital Image">
+    </div>
+
+    <!-- Right Login Section -->
+    <div class="right">
+        <div class="login-box">
+            <h2>Doctor Register</h2>
+            <form method="post" action=" {% url 'register_doctor' %} " enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text"  name = "doctor_name" placeholder="Name" required>
+                <input type="text"  name = "doctor_speciality" placeholder="Speciality" required>
+                <input type="text"  name = "doctor_fee" placeholder="Fee" required>
+                <input type="text"  name = "doctor_slots" placeholder="Slots" required>
+                <input type="text"  name = "doctor_number" placeholder="Number" required>
+                <input type="file" name = "doctor_image" placeholder="Image" required accept="image/*">
+                <input type="email"  name = "doctor_email" placeholder="Email" required>
+                <input type="password" name = "doctor_password" placeholder="Password" required>
+                <button type="submit">Register</button><br>
+                <!-- <center>
+
+                    <h5 style="padding-top: 1%; padding-bottom: 1%;">Or</h5>
+                </center>
+                <button type="submit">Register</button> -->
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

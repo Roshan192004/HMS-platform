@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body{
+            display:flex;
+            height:100vh;
+            background:linear-gradient(135deg, #e8f0fe, #f3e7f9, #e8f0fe);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5); }
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar{
+            width: 260px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: 5px 0 30px rgba(102, 126, 234, 0.2);
+            animation: slideInLeft 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .sidebar h2{
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-item{
+            padding: 15px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.85);
+            border: 2px solid transparent;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: width 0.3s ease;
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        .menu-item:hover::before {
+            width: 100%;
+        }
+
+        .menu-item:hover{
+            color: white;
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .menu-item:active {
+            transform: translateX(8px) scale(0.98);
+        }
+
+        /* ===== Main Content ===== */
+        .main{
+            flex: 1;
+            padding: 40px 50px;
+            overflow-y: auto;
+            animation: slideInRight 0.6s ease;
+        }
+
+        .header{
+            margin-bottom: 35px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .header h1{
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p{
+            color: #64748b;
+            font-size: 1.05rem;
+        }
+
+        /* ===== Stats Cards ===== */
+        .cards{
+            display: flex;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card{
+            flex: 1;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.12);
+            transition: all 0.4s ease;
+            animation: bounceIn 0.6s ease both;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        .card:hover{
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .card h3{
+            color: #6b7c85;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card h2{
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== Appointment Table ===== */
+        .appointments{
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.12);
+            animation: fadeInUp 1s ease;
+            border: 2px solid #e8f0fe;
+        }
+
+        .appointments h2 {
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td{
+            padding: 18px 15px;
+            text-align: left;
+        }
+
+        table th{
+            background: linear-gradient(135deg, #f8fafc, #f3e7f9);
+            color: #475569;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        table tr{
+            border-bottom: 1px solid #e8f0fe;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        table tbody tr::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.05), transparent);
+            transition: width 0.3s ease;
+        }
+
+        table tbody tr:hover::after {
+            width: 100%;
+        }
+
+        table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.02), transparent);
+        }
+
+        table td {
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .status{
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: glow 3s ease infinite;
+        }
+
+        .completed{
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+
+        .pending{
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+
+        /* Scrollbar Styling */
+        .main::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .main::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        .main::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .main::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #764ba2, #667eea);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .cards {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 220px;
+            }
+            
+            .main {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .sidebar h2 {
+                margin-bottom: 20px;
+            }
+            
+            .menu-item {
+                padding: 12px 15px;
+            }
+            
+            .main {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card h2 {
+                font-size: 2.5rem;
+            }
+            
+            table th, table td {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dr. Dashboard</h2>
+
+        <div class="menu-item">🏠 Dashboard</div>
+        <div class="menu-item" onclick="window.location.href='{% url 'my_appointments' %}'">📅 My Appointments</div>
+        <div class="menu-item"  onclick="window.location.href='{% url 'patient_record' %}'">🧾 Patient Records</div>
+        <div class="menu-item" onclick="window.location.href='{% url 'prescription' %}'">💊 Prescriptions</div>
+        <div class="menu-item" onclick="window.location.href='{% url 'my_profile' %}'" >⚙ Profile</div>
+        <div class="menu-item" onclick="window.location.href='{% url 'home' %}'">🚪 Logout</div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Welcome, Dr. {{ db.doctor_name}}</h1>
+            <p>You have {{c3}} appointments today.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Total Patients</h3>
+                <h2>{{c3}}</h2>
+            </div>
+
+            <div class="card">
+                <h3>Today's Appointments</h3>
+                <h2>{{c3}}</h2>
+            </div>
+
+            <div class="card">
+                <h3>Pending Reviews</h3>
+                <h2>{{pending_count}}</h2>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="appointments">
+            <h2 style="margin-bottom:20px;">Today's Schedule</h2>
+
+            <table>
+                <tr>
+                    <th>Patient</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for i in c2 %}
+                <tr>
+                    <td>{{ i.patient_name }}</td>
+                    <td>{{ i.appointment_time }}</td>
+                    <td>{{ i.reason }}</td>
+                    <td>
+                        {% if i.patient_name in check  %}
+                        <span class="status completed">Completed</span>
+                        {% else %}
+                        <span class="status completed">Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No Appointments Found</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

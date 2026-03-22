@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Pharmacist Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>PharmaCare</h1>
+            <p>Pharmacy Management</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="nav-link active">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% comment %} <li> {% endcomment %}
+                    {% comment %} <a href="#" class="nav-link">
+                        <span class="icon">💊</span>
+                        <span>Prescriptions</span>
+                    </a> {% endcomment %}
+                    {% comment %} </li> {% endcomment %}
+                <li>
+                    <a href="#" class="nav-link">
+                        <span class="icon">📦</span>
+                        <span>Inventory</span>
+                    </a>
+                </li>
+                {% comment %} <li> {% endcomment %}
+                    {% comment %} <a href="#" class="nav-link">
+                        <span class="icon">👥</span>
+                        <span>Patients</span>
+                    </a> {% endcomment %}
+                    {% comment %} </li> {% endcomment %}
+                {% comment %} <li>
+                    <a href="#" class="nav-link">
+                        <span class="icon">📈</span>
+                        <span>Reports</span>
+                    </a>
+                </li> {% endcomment %}
+                <li>
+                    <a href="#" class="nav-link">
+                        <span class="icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div>
+                    <p class="user-name">{{ pharmacist_name }}</p>
+                    <p class="user-role">Pharmacist</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <h2>Patient Panel</h2>
+
+            </div>
+            <div class="header-actions">
+                <div class="search-wrapper">
+                    <input type="text" placeholder="Search medications, patients..." class="search-input">
+                    <span class="search-icon">🔍</span>
+                </div>
+                {% comment %} <button class="notification-btn">
+                    <span>🔔</span>
+                    <span class="notification-badge"></span>
+                </button> {% endcomment %}
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="content-area">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue">📋</div>
+                    </div>
+                    <h3 class="stat-label">Prescription Record</h3>
+                    <p class="stat-value">{{ total_prescriptions }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple">⏳</div>
+                    </div>
+                    <h3 class="stat-label">Pending Orders</h3>
+                    <p class="stat-value">{{ pending_orders }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">💰</div>
+                    </div>
+                    <h3 class="stat-label">Today's Revenue</h3>
+                    <p class="stat-value">${{ todays_revenue|floatformat:2 }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon red">⚠️</div>
+                        <span class="stat-badge red">Low Stock</span>
+                    </div>
+                    <h3 class="stat-label">Low Stock Items</h3>
+                    <p class="stat-value">{{ low_stock_count }}</p>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="main-grid">
+                <!-- Recent Prescriptions -->
+                <div class="prescriptions-section">
+                    <div class="section-header">
+                        <h3>Recent Prescriptions</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="prescriptions-table">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Medication</th>
+                                    <th>Doctor</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prescription in recent_prescriptions %}
+                                <tr>
+                                    <td>
+                                        <div class="patient-cell">
+                                            <div class="patient-avatar blue">{{
+                                                prescription.patient_name|slice:":2"|upper }}</div>
+                                            <span class="patient-name">{{ prescription.patient_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% for item in prescription.items.all|slice:":1" %}
+                                        {{ item.medicine.name }} {{ item.dosage }}
+                                        {% endfor %}
+                                        {% if prescription.items.count > 1 %}
+                                        <span style="color: #999;">+{{ prescription.items.count|add:"-1" }} more</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ prescription.doctor_name }}</td>
+                                    <td><span class="status-badge {{ prescription.status }}">{{
+                                            prescription.get_status_display }}</span></td>
+                                    <td class="time-cell">{{ prescription.created_at|date:"g:i A" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 2rem; color: #999;">
+                                        No prescriptions found
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inventory Alerts -->
+                <div class="alerts-section">
+                    <div class="section-header">
+                        <h3>Inventory Alerts</h3>
+                    </div>
+                    <div class="alerts-content">
+                        {% for alert in inventory_alerts %}
+                        <div
+                            class="alert-item {% if alert.severity == 'critical' or alert.severity == 'high' %}red{% elif alert.severity == 'medium' %}orange{% else %}yellow{% endif %}">
+                            <span class="alert-icon">{% if alert.alert_type == 'expiring_soon' or alert.alert_type ==
+                                'expired' %}📅{% else %}⚠️{% endif %}</span>
+                            <div class="alert-details">
+                                <p class="alert-title">{{ alert.medicine.name }}</p>
+                                <p class="alert-description">{{ alert.message }}</p>
+                                {% if alert.alert_type == 'low_stock' or alert.alert_type == 'out_of_stock' %}
+                                <div class="progress-bar">
+                                    <div class="progress-fill {% if alert.severity == 'critical' or alert.severity == 'high' %}red{% elif alert.severity == 'medium' %}orange{% else %}yellow{% endif %}"
+                                        style="width: {{ alert.medicine.stock_percentage }}%"></div>
+                                </div>
+                                {% else %}
+                                <p class="alert-units">{{ alert.medicine.stock }} units</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div style="text-align: center; padding: 2rem; color: #999;">
+                            No active alerts
+                        </div>
+                        {% endfor %}
+
+                        <button class="view-all-btn">View All Alerts</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

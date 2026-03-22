@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* LEFT SIDE IMAGE */
+    .left {
+        width: 50%;
+        height: 100%;
+        position: relative;
+    }
+
+    .left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.85);
+    }
+
+    /* RIGHT SIDE LOGIN FORM */
+    .right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+    }
+
+    .login-box {
+        width: 420px;
+        padding: 50px 40px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 0.6s ease-in-out;
+        transition: transform 0.3s ease;
+    }
+
+    .login-box:hover {
+        transform: translateY(-5px);
+    }
+
+    .login-box h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2e7d32;
+        font-weight: 600;
+    }
+
+    .login-box input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 20px;
+        border: 1px solid #b2dfdb;
+        border-radius: 10px;
+        outline: none;
+        transition: 0.3s ease;
+        font-size: 14px;
+    }
+
+    .login-box input:focus {
+        border-color: #26a69a;
+        box-shadow: 0 0 8px rgba(38, 166, 154, 0.4);
+    }
+
+    .login-box button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    /* LOGIN BUTTON */
+    .login-box button[type="submit"] {
+        background: linear-gradient(135deg, #26a69a, #2e7d32);
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .login-box button[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    /* REGISTER BUTTON */
+    .login-box button[type="button"] {
+        background: white;
+        border: 2px solid #2e7d32;
+        color: #2e7d32;
+    }
+
+    .login-box button[type="button"]:hover {
+        background: #2e7d32;
+        color: white;
+    }
+
+    h5 {
+        color: #555;
+        font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+    <!-- Left Image Section -->
+    <div class="left">
+        <img src="https://images.unsplash.com/photo-1585421514738-01798e348b17" alt="Hospital Image">
+    </div>
+
+    <!-- Right Login Section -->
+    <div class="right">
+        <div class="login-box">
+            <h2>Pharmacist Login</h2>
+            <form method="post" action="{% url 'pharmacy_login' %}" >
+                {% csrf_token %}
+                <input type="text"  name = "pharmacist_name" placeholder="Username" required>
+                <input type="password" name = "pharmacist_password" placeholder="Password" required>
+                <button type="submit">Login</button><br>
+                <center>
+
+                    <h5 style="padding-top: 1%; padding-bottom: 1%;">OR</h3>
+                </center>
+                <button type="button" onclick="window.location.href='{% url 'pharmacy_register' %}'">
+                        Register
+                </button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

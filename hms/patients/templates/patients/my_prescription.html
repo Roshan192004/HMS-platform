@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            display:flex;
+            height:100vh;
+            background:linear-gradient(135deg,#e6f7ff,#f0f9ff);
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar{
+            width:250px;
+            background:#0a3d62;
+            color:white;
+            padding:30px 20px;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .menu-item{
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:8px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .menu-item:hover{
+            background:#1e5f8a;
+        }
+
+        /* ===== Main Content ===== */
+        .main{
+            flex:1;
+            padding:40px;
+            overflow-y:auto;
+        }
+
+        .header{
+            margin-bottom:30px;
+        }
+
+        .header h1{
+            color:#0a3d62;
+        }
+
+        .header p{
+            color:gray;
+        }
+
+        /* ===== Stats Cards ===== */
+        .cards{
+            display:flex;
+            gap:20px;
+            margin-bottom:40px;
+        }
+
+        .card{
+            flex:1;
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .card h3{
+            color:gray;
+            margin-bottom:10px;
+        }
+
+        .card h2{
+            color:#0a3d62;
+        }
+
+        /* ===== Appointment Table ===== */
+        .appointments{
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        table th, table td{
+            padding:15px;
+            text-align:left;
+        }
+
+        table th{
+            background:#f2f8ff;
+            color:#0a3d62;
+        }
+
+        table tr{
+            border-bottom:1px solid #eee;
+        }
+
+        .status{
+            padding:5px 12px;
+            border-radius:20px;
+            font-size:12px;
+            color:white;
+        }
+
+        .completed{
+            background:#28a745;
+        }
+
+        .pending{
+            background:#ffc107;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Prescription</h2>
+
+        <div class="menu-item" onclick="window.location.href='{% url 'base_patient' %}'">🏠 Dashboard</div>
+        <!-- <div class="menu-item" onclick="window.location.href='{% url 'my_appointments' %}'">📅 My Appointments</div> -->
+        <!-- <div class="menu-item"  >🧾 Patient Records</div> -->
+        <!-- <div class="menu-item">💊 Prescriptions</div> -->
+        <!-- <div class="menu-item">⚙ Profile</div> -->
+        <div class="menu-item" onclick="window.location.href='{% url 'home' %}'">🚪 Logout</div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Welcome {{k}}</h1>
+            <!-- <p>Your Patient Data.</p> -->
+        </div>
+
+        <!-- Stats Cards -->
+       
+
+        <!-- Appointments Table -->
+        <div class="appointments">
+            <h2 style="margin-bottom:20px;">My Prescriptions</h2>
+
+            <table>
+                <tr>
+                    <th>Patient</th>
+                    <th>Prescription</th>
+                    <th>Download</th>
+                    <!-- <th>Email</th> -->
+                    <!-- <th>Status</th> -->
+                </tr>
+
+                {% for i in  m %}
+                <tr>
+                    <td>{{ i.patient_name }}</td>
+                    <!-- <td>{{ i.appoin }}</td> -->
+                    <td>{{ i.medicines }}</td>
+                    <td>
+                        <a href="{% url 'download_prescription' i.id %}" class="download-btn">
+    📥 Download
+</a>
+    </td>
+                    <!-- <td>{{ i.patient_email }}</td> -->
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">No Appointments Found</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

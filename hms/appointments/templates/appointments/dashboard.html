@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="main-wrapper">
+
+    <!-- ===== TOP ROW: Profile, Welcome, Appointment ===== -->
+    <div class="dashboard-grid">
+
+        <!-- Center Heading (now part of grid or overlay) -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Patient Dashboard</h1>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-section">
+            <div class="patient-card">
+                <div class="profile-image">
+                    <img src="https://i.pravatar.cc/150?img=3" alt="Profile">
+                </div>
+
+                <h2 class="patient-name">John Doe</h2>
+                <p class="patient-location"><i data-lucide="map-pin" size="14"></i> Banglore</p>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <span class="label">Age</span>
+                        <span class="value">22</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Weight</span>
+                        <span class="value">63 Kg</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Height</span>
+                        <span class="value">178 Cm</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Blood</span>
+                        <span class="value">O+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Info Box -->
+        <div class="welcome-section">
+            <div class="welcome-box">
+                <h2>Welcome, John 👋</h2>
+                <h3>To Your Health Portal 💙</h3>
+                <p>
+                    Your well-being is our top priority. Access your medical records,
+                    upcoming appointments, and prescriptions all in one place.
+                </p>
+            </div>
+        </div>
+
+        <!-- Hospital Appointment Card -->
+        <div class="appointment-section">
+            <div class="appointment-card">
+                <div class="hospital-section">
+                    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=300" class="hospital-img">
+                    <div class="hospital-info">
+                        <h3>Sakra Hospital</h3>
+                        <p>Kadubeesanahalli, Bangalore</p>
+                    </div>
+                </div>
+
+                <div class="doctor-section">
+                    <img src="https://i.pravatar.cc/100?img=5" class="doctor-img">
+                    <div class="doctor-info">
+                        <h4>Dr. Sachi Sen</h4>
+                        <p>H.O.D Surgeon</p>
+                    </div>
+                </div>
+
+                <div class="appointment-details">
+                    <h4 class="section-title">Scheduled Appointment</h4>
+                    <div class="date-time">
+                        <div class="dt-item">
+                            <i data-lucide="calendar"></i>
+                            <div>
+                                <span class="label">Date</span>
+                                <p>26-01-2026</p>
+                            </div>
+                        </div>
+                        <div class="dt-item">
+                            <i data-lucide="clock"></i>
+                            <div>
+                                <span class="label">Time</span>
+                                <p>10:30 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== ACTION CARDS ===== -->
+    <div class="action-grid">
+        <a href="{% url 'book_appointment' %}" class="action-card">
+            <div class="icon-wrapper"><i data-lucide="calendar-plus"></i></div>
+            <h3>Book Appointment</h3>
+        </a>
+        <a href="#" class="action-card">
+            <div class="icon-wrapper"><i data-lucide="test-tube-2"></i></div>
+            <h3>Lab Test</h3>
+        </a>
+        <a href="{% url 'pharmacy_login' %}" class="action-card">
+            <div class="icon-wrapper"><i data-lucide="pill"></i></div>
+            <h3>Pharmacy</h3>
+        </a>
+        <a href="#" class="action-card">
+            <div class="icon-wrapper"><i data-lucide="file-text"></i></div>
+            <h3>My Prescriptions</h3>
+        </a>
+        <a href="#" class="action-card">
+            <div class="icon-wrapper"><i data-lucide="credit-card"></i></div>
+            <h3>My Bills</h3>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
