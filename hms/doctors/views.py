@@ -1,8 +1,4 @@
 from django.shortcuts import*
-<<<<<<< HEAD
-=======
-
->>>>>>> a60adfbd7ca1c80757c21657537762cdf9c82e82
 from accounts.models import*
 from django.conf import settings
 from django.core.mail import send_mail

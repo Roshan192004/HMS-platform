@@ -67,15 +67,7 @@ def patient_register(request):
             fail_silently=False
         )
         return render(request,'accounts/login_patient.html')
-<<<<<<< HEAD
     
-=======
-
-
-
-
-
->>>>>>> a60adfbd7ca1c80757c21657537762cdf9c82e82
     return render(request, 'accounts/register_patient.html')
 
 def patient_dashboard(request):
@@ -211,14 +203,7 @@ def admin_dashboard(request):
     total_earning = Bill.objects.aggregate(
         total=Sum('total_amount')
     )['total'] or 0
-<<<<<<< HEAD
-
     
-
-    
-
-=======
->>>>>>> a60adfbd7ca1c80757c21657537762cdf9c82e82
     return render(request,'accounts/admin_dashboard.html',{'p3':p3,'d3':d3,'a':a , 'total_earning':total_earning})
 def p(request):
     p2 = patient.objects.all()

@@ -138,10 +138,7 @@ def my_prescription(request):
     k = p.patient_name
     m = prescription.objects.filter(patient_name  = p.patient_name)
     return render(request,'patients/my_prescription.html',{'m':m , 'k':k})
-<<<<<<< HEAD
 
-=======
->>>>>>> a60adfbd7ca1c80757c21657537762cdf9c82e82
 def order_medicine(request):
     patient_id_session = request.session.get('patient_id')
     if not patient_id_session:

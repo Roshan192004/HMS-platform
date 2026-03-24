@@ -64,11 +64,6 @@ class pharmacist(models.Model):
 class prescription(models.Model):
     patient_name = models.CharField(max_length=20)
     medicines = models.TextField()
-<<<<<<< HEAD
-=======
-
-    
->>>>>>> a60adfbd7ca1c80757c21657537762cdf9c82e82
     def __str__(self):
         return self.patient_name
 
