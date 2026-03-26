@@ -67,3 +67,13 @@ class prescription(models.Model):
     def __str__(self):
         return self.patient_name
 
+# ============================
+class laboratory(models.Model):
+    laboratory_name = models.CharField(max_length=20)
+    laboratory_number = models.CharField(max_length=20)
+    laboratory_email = models.EmailField(max_length=20)
+    laboratory_otp = models.CharField(max_length=10)
+    laboratory_password = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return self.laboratory_name

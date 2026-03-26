@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedLab Clinical Laboratory</title>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;min-height:100vh;background:#f8fafc;color:#1e293b;overflow:hidden}
+
+.bg-container{position:absolute;inset:0;z-index:0}
+.bg-image{width:100%;height:100%;object-fit:cover}
+.bg-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(255,255,255,.95),rgba(255,255,255,.80),rgba(255,255,255,.40))}
+
+.container{position:relative;z-index:10;max-width:1280px;margin:auto;padding:2rem 1.5rem;height:100vh;display:flex;flex-direction:column}
+
+.header{display:flex;align-items:center;gap:.75rem;margin-bottom:3rem}
+.logo-wrapper{display:flex;align-items:center;gap:.5rem}
+.icon-container{padding:.5rem;border-radius:.5rem;box-shadow:0 1px 2px rgba(0,0,0,.05);background:#e0e7ff}
+.brand-name{font-size:1.5rem;font-weight:700;color:#4f46e5}
+.brand-subtitle{font-size:.875rem;color:#475569}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:42rem}
+.hero-heading{font-size:2.5rem;font-weight:800;color:#0f172a;line-height:1.2}
+.text-indigo{color:#4f46e5}
+
+.banner{background:linear-gradient(to right,#4f46e5,#6366f1);color:white;padding:.75rem 1.5rem;border-radius:0 9999px 9999px 0;margin-left:-1.5rem;display:inline-block}
+.banner-text{text-align:center;font-weight:600}
+
+.features{margin-top:1.5rem}
+.feature-item{display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.7);padding:.75rem;border-radius:.5rem;margin-bottom:.75rem}
+.feature-check{background:#d1fae5;padding:.3rem;border-radius:.3rem}
+.feature-text{font-size:1.1rem}
+
+.cta-button{margin-top:1.5rem;background:#4f46e5;color:white;padding:1rem 2rem;border:none;border-radius:.5rem;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;gap:.5rem}
+.cta-button:hover{background:#4338ca}
+
+.footer{margin-top:auto;padding-top:1rem;color:#64748b;font-size:.85rem}
+</style>
+
+</head>
+
+<body>
+
+<div class="bg-container">
+    <img src="https://images.unsplash.com/photo-1576669801838-1b1c52121e6a" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="container">
+
+<header class="header">
+    <div class="logo-wrapper">
+        <div class="icon-container">
+            <i data-lucide="microscope"></i>
+        </div>
+        <div>
+            <h1 class="brand-name">MEDLAB</h1>
+            <span class="brand-subtitle">Clinical Laboratory</span>
+        </div>
+    </div>
+</header>
+
+<main class="hero">
+    <h2 class="hero-heading">
+        Welcome to <br>
+        <span class="text-indigo">MedLab</span> Clinical Laboratory
+    </h2>
+
+    <div class="banner">
+        <p class="banner-text">Accurate • Fast • Advanced Diagnostics</p>
+    </div>
+
+    <div class="features">
+        <div class="feature-item">
+            <div class="feature-check"><i data-lucide="check"></i></div>
+            <span class="feature-text">Fast Test Results</span>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-check"><i data-lucide="check"></i></div>
+            <span class="feature-text">Sample Tracking System</span>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-check"><i data-lucide="check"></i></div>
+            <span class="feature-text">Digital Report Access</span>
+        </div>
+    </div>
+
+    <button class="cta-button">
+        View Test Results
+        <i data-lucide="arrow-right"></i>
+    </button>
+</main>
+
+<footer class="footer">
+    <p>&copy; <span id="year"></span> MedLab Clinical Laboratory</p>
+</footer>
+
+</div>
+
+<script>
+lucide.createIcons();
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
