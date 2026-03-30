@@ -4,6 +4,9 @@ from django.conf import settings
 from django.contrib import messages
 from accounts.models import laboratory
 from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
+from .models import LabTest
+from django.utils.timezone import now
 # Create your views here.
 def landing_page(request):
     return render(request,'laboratory/landing_page.html')
@@ -63,3 +66,21 @@ def laboratory_login(request):
             return redirect('laboratory_login')
 
     return render(request, 'laboratory/login.html')
+
+# =========dashboard
+def laboratory_dashboard(request):
+    tests = LabTest.objects.all().order_by('-date')[:5]
+    stats = {
+        "total_tests": LabTest.objects.count(),
+        "active_samples": LabTest.objects.filter(status="In Progress").count(),
+        "completed_today": LabTest.objects.filter(
+            status="Completed",
+            date=now().date()
+        ).count(),
+        "pending_results": LabTest.objects.filter(status="Pending").count(),
+    }
+
+    return render(request, "laboratory/dashboard.html", {
+        "tests": tests,
+        "stats": stats
+    })
