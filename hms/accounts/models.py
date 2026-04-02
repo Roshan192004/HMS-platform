@@ -74,6 +74,10 @@ class laboratory(models.Model):
     laboratory_email = models.EmailField(max_length=20)
     laboratory_otp = models.CharField(max_length=10)
     laboratory_password = models.CharField(max_length=10)
+    laboratory_image = models.ImageField(upload_to='laboratory/', null=True, blank=True)
+    laboratory_speciality = models.CharField(max_length=50, null=True, blank=True)
+    laboratory_age = models.IntegerField(null=True, blank=True)
+    laboratory_gender = models.CharField(max_length=10, null=True, blank=True)
     
     def __str__(self):
         return self.laboratory_name

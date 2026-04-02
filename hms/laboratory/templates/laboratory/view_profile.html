@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laboratory Profile</title>
+
+    <style>
+        body{
+            margin:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:Arial, sans-serif;
+            background:linear-gradient(135deg,#f8cdda,#1d2b64);
+        }
+
+        .profile-card{
+            width:380px;
+            background:white;
+            border-radius:25px;
+            text-align:center;
+            padding:80px 30px 40px 30px;
+            position:relative;
+            box-shadow:0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .profile-image{
+            position:absolute;
+            top:-60px;
+            left:50%;
+            transform:translateX(-50%);
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            border:6px solid white;
+            overflow:hidden;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .profile-image img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+        
+        .profile-image i {
+            color: white;
+            font-size: 50px;
+        }
+
+        h2{
+            margin:10px 0 5px 0;
+        }
+
+        .sub{
+            color:gray;
+            margin-bottom:20px;
+        }
+
+        hr{
+            border:none;
+            border-top:1px solid #eee;
+            margin:20px 0;
+        }
+
+        .details{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+            margin-top:20px;
+        }
+
+        .box{
+            text-align:center;
+        }
+
+        .label{
+            font-size:12px;
+            color:#ff4d4d;
+            font-weight:bold;
+            letter-spacing:1px;
+            text-transform: uppercase;
+        }
+
+        .value{
+            font-size:18px;
+            margin-top:5px;
+        }
+
+        .back-btn{
+            margin-top:30px;
+            padding:10px 25px;
+            border:none;
+            border-radius:25px;
+            background:#1d2b64;
+            color:white;
+            cursor:pointer;
+            transition:0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover{
+            background:#0f1a3d;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+<div class="profile-card">
+
+    <div class="profile-image">
+        {% if laboratory.laboratory_image %}
+            <img src="{{ laboratory.laboratory_image.url }}" alt="Profile">
+        {% else %}
+            <i data-lucide="user"></i>
+        {% endif %}
+    </div>
+
+    <h2>{{ laboratory.laboratory_name }}</h2>
+    <div class="sub">Registered Laboratory / Doctor</div>
+
+    <hr>
+
+    <div class="details">
+        <div class="box">
+            <div class="label">Age</div>
+            <div class="value">{{ laboratory.laboratory_age|default:"N/A" }}</div>
+        </div>
+
+        <div class="box">
+            <div class="label">Gender</div>
+            <div class="value">{{ laboratory.laboratory_gender|default:"N/A" }}</div>
+        </div>
+        
+        <div class="box" style="grid-column: span 2;">
+            <div class="label">Speciality</div>
+            <div class="value">{{ laboratory.laboratory_speciality|default:"General Laboratory" }}</div>
+        </div>
+
+        <div class="box" style="grid-column: span 2;">
+            <div class="label">Email</div>
+            <div class="value">{{ laboratory.laboratory_email }}</div>
+        </div>
+
+        <div class="box" style="grid-column: span 2;">
+            <div class="label">Contact</div>
+            <div class="value">{{ laboratory.laboratory_number }}</div>
+        </div>
+    </div>
+
+    <a href="{% url 'laboratory_dashboard' %}" class="back-btn">
+        Back to Dashboard
+    </a>
+
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

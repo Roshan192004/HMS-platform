@@ -48,15 +48,19 @@
                     <i data-lucide="bell"></i>
                 </button>
 
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <div>
-                        <p style="margin:0;">Dr. Sarah Chen</p>
-                        <small style="color:#64748b;">Admin</small>
+                <a href="{% url 'laboratory_profile' %}" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:inherit;">
+                    <div style="text-align: right;">
+                        <p style="margin:0; font-weight: 600;">{{ laboratory.laboratory_name }}</p>
+                        <small style="color:#64748b;">{{ laboratory.laboratory_speciality|default:"Laboratory Admin" }}</small>
                     </div>
-                    <div style="background:#4f46e5; color:white; padding:10px; border-radius:50%;">
-                        <i data-lucide="user"></i>
+                    <div style="background:#4f46e5; color:white; width: 40px; height: 40px; border-radius:50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        {% if laboratory.laboratory_image %}
+                            <img src="{{ laboratory.laboratory_image.url }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                            <i data-lucide="user"></i>
+                        {% endif %}
                     </div>
-                </div>
+                </a>
             </div>
         </header>
 
