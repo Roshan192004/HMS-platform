@@ -1,0 +1,43 @@
+{% extends "laboratory/base_laboratory.html" %}
+
+{% block title %}All Tests - MedLab{% endblock %}
+
+{% block content %}
+<div style="background:white; border-radius:8px; padding:20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <h3 style="margin-bottom: 20px;">All Laboratory Tests</h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+        <thead style="background:#f8fafc;">
+            <tr>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Test ID</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Patient</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Test</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Status</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Priority</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for test in tests %}
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding:16px 10px; font-weight: 500;">{{ test.test_id }}</td>
+                <td style="padding:16px 10px;">{{ test.patient_name }}</td>
+                <td style="padding:16px 10px;">{{ test.test_type }}</td>
+                <td style="padding:16px 10px;">
+                    <span style="{% if test.status == 'Completed' %}background:#dcfce7; color: #166534;{% elif test.status == 'In Progress' %}background:#dbeafe; color: #1e40af;{% else %}background:#fee2e2; color: #991b1b;{% endif %} padding:4px 12px; border-radius:12px; font-size: 13px; font-weight: 500;">
+                        {{ test.status }}
+                    </span>
+                </td>
+                <td style="padding:16px 10px;">{{ test.priority }}</td>
+                <td style="padding:16px 10px;">{{ test.date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align:center; padding:40px; color: #64748b;">No laboratory tests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

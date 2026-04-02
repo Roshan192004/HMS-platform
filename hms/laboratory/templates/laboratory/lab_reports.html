@@ -1,0 +1,39 @@
+{% extends "laboratory/base_laboratory.html" %}
+
+{% block title %}Reports - MedLab{% endblock %}
+
+{% block content %}
+<div style="background:white; border-radius:8px; padding:20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <h3 style="margin-bottom: 20px;">Completed Test Reports</h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+        <thead style="background:#f8fafc;">
+            <tr>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Report ID</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Patient</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Test</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Completed on</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for test in tests %}
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding:16px 10px; font-weight: 500;">{{ test.test_id }}</td>
+                <td style="padding:16px 10px;">{{ test.patient_name }}</td>
+                <td style="padding:16px 10px;">{{ test.test_type }}</td>
+                <td style="padding:16px 10px;">{{ test.date }}</td>
+                <td style="padding:16px 10px;">
+                    <button style="background: #4338ca; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">Download PDF</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align:center; padding:40px; color: #64748b;">No completed reports available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@ from accounts.models import laboratory
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import LabTest
 from django.utils.timezone import now
+from django.db.models import Q
 
 # Create your views here.
 def landing_page(request):
@@ -74,7 +75,18 @@ def laboratory_dashboard(request):
         return redirect('laboratory_login')
     
     lab = laboratory.objects.get(id=laboratory_id)
-    tests = LabTest.objects.all().order_by('-date')[:5]
+    
+    # Search functionality
+    query = request.GET.get('q')
+    if query:
+        tests = LabTest.objects.filter(
+            Q(patient_name__icontains=query) | 
+            Q(test_id__icontains=query) |
+            Q(test_type__icontains=query)
+        ).order_by('-date')
+    else:
+        tests = LabTest.objects.all().order_by('-date')[:5]
+
     stats = {
         "total_tests": LabTest.objects.count(),
         "active_samples": LabTest.objects.filter(status="In Progress").count(),
@@ -88,7 +100,8 @@ def laboratory_dashboard(request):
     return render(request, "laboratory/dashboard.html", {
         "tests": tests,
         "stats": stats,
-        "laboratory": lab
+        "laboratory": lab,
+        "query": query
     })
 
 def laboratory_profile(request):
@@ -98,3 +111,27 @@ def laboratory_profile(request):
         
     lab = laboratory.objects.get(id=laboratory_id)
     return render(request, 'laboratory/view_profile.html', {'laboratory': lab})
+
+def lab_tests(request):
+    laboratory_id = request.session.get('laboratory_id')
+    if not laboratory_id:
+        return redirect('laboratory_login')
+    lab = laboratory.objects.get(id=laboratory_id)
+    tests = LabTest.objects.all().order_by('-date')
+    return render(request, 'laboratory/lab_tests.html', {'tests': tests, 'laboratory': lab})
+
+def lab_samples(request):
+    laboratory_id = request.session.get('laboratory_id')
+    if not laboratory_id:
+        return redirect('laboratory_login')
+    lab = laboratory.objects.get(id=laboratory_id)
+    tests = LabTest.objects.filter(status='In Progress').order_by('-date')
+    return render(request, 'laboratory/lab_samples.html', {'tests': tests, 'laboratory': lab})
+
+def lab_reports(request):
+    laboratory_id = request.session.get('laboratory_id')
+    if not laboratory_id:
+        return redirect('laboratory_login')
+    lab = laboratory.objects.get(id=laboratory_id)
+    tests = LabTest.objects.filter(status='Completed').order_by('-date')
+    return render(request, 'laboratory/lab_reports.html', {'tests': tests, 'laboratory': lab})

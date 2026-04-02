@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}MedLab Dashboard{% endblock %}</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body style="margin:0; font-family:system-ui; background:#f8fafc; color:#1e293b;">
+
+<div style="display:flex; height:100vh;">
+
+    <!-- Sidebar -->
+    <aside style="width:256px; background:#312e81; color:white; display:flex; flex-direction:column;">
+        <div style="padding:24px; border-bottom:1px solid #4338ca;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="background:#4338ca; padding:8px; border-radius:8px;">
+                    <i data-lucide="microscope"></i>
+                </div>
+                <div>
+                    <h1 style="margin:0; font-size:20px;">MEDLAB</h1>
+                    <p style="margin:0; font-size:12px; color:#a5b4fc;">Clinical Laboratory</p>
+                </div>
+            </div>
+        </div>
+
+        <nav style="padding:16px; display:flex; flex-direction:column; gap:6px;">
+            <a href="{% url 'laboratory_dashboard' %}" style="color:white; padding:10px; {% if request.resolver_match.url_name == 'laboratory_dashboard' %}background:#4338ca;{% endif %} border-radius:8px; text-decoration:none;">Dashboard</a>
+            <a href="{% url 'lab_tests' %}" style="color:#a5b4fc; padding:10px; {% if request.resolver_match.url_name == 'lab_tests' %}background:#4338ca; color:white;{% endif %} border-radius:8px; text-decoration:none;">Tests</a>
+            <a href="{% url 'lab_samples' %}" style="color:#a5b4fc; padding:10px; {% if request.resolver_match.url_name == 'lab_samples' %}background:#4338ca; color:white;{% endif %} border-radius:8px; text-decoration:none;">Samples</a>
+            <a href="{% url 'lab_reports' %}" style="color:#a5b4fc; padding:10px; {% if request.resolver_match.url_name == 'lab_reports' %}background:#4338ca; color:white;{% endif %} border-radius:8px; text-decoration:none;">Reports</a>
+        </nav>
+        
+        <div style="margin-top: auto; padding: 16px;">
+            <a href="{% url 'laboratory_login' %}" style="color:#fca5a5; padding:10px; text-decoration:none; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="log-out" style="width: 18px;"></i>
+                Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div style="flex:1; display:flex; flex-direction:column; overflow: hidden;">
+
+        <!-- Header -->
+        <header style="background:white; padding:16px; display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0;">
+            
+            <form method="GET" action="{% url 'laboratory_dashboard' %}" style="display:flex; gap:8px;">
+                <input type="text" name="q" placeholder="Search patient or test ID..." value="{{ query|default:'' }}"
+                    style="padding:8px; border:1px solid #cbd5e1; border-radius:8px; width:300px;">
+                <button type="submit" style="background:#4338ca; color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer;">Search</button>
+            </form>
+
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button style="background:none; border:none; cursor:pointer;">
+                    <i data-lucide="bell"></i>
+                </button>
+
+                <a href="{% url 'laboratory_profile' %}" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:inherit;">
+                    <div style="text-align: right;">
+                        <p style="margin:0; font-weight: 600;">{{ laboratory.laboratory_name }}</p>
+                        <small style="color:#64748b;">{{ laboratory.laboratory_speciality|default:"Laboratory Admin" }}</small>
+                    </div>
+                    <div style="background:#4f46e5; color:white; width: 40px; height: 40px; border-radius:50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        {% if laboratory.laboratory_image %}
+                            <img src="{{ laboratory.laboratory_image.url }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                            <i data-lucide="user"></i>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main style="padding:20px; overflow:auto; flex: 1;">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

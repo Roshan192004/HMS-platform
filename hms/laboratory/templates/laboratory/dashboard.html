@@ -1,139 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedLab Dashboard</title>
-<script src="https://unpkg.com/lucide@latest"></script>
-</head>
+{% extends "laboratory/base_laboratory.html" %}
 
-<body style="margin:0; font-family:system-ui; background:#f8fafc; color:#1e293b;">
+{% block title %}MedLab Dashboard{% endblock %}
 
-<div style="display:flex; height:100vh;">
+{% block content %}
+<!-- Stats -->
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:20px;">
+    
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <p style="margin: 0 0 8px 0; color: #64748b; font-size: 14px;">Total Tests</p>
+        <h2 style="margin: 0 0 8px 0;">{{ stats.total_tests }}</h2>
+        <span style="color:green; font-size: 14px;">+{{ stats.total_tests|default:0 }} Total</span>
+    </div>
 
-    <!-- Sidebar -->
-    <aside style="width:256px; background:#312e81; color:white; display:flex; flex-direction:column;">
-        
-        <div style="padding:24px; border-bottom:1px solid #4338ca;">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div style="background:#4338ca; padding:8px; border-radius:8px;">
-                    <i data-lucide="microscope"></i>
-                </div>
-                <div>
-                    <h1 style="margin:0; font-size:20px;">MEDLAB</h1>
-                    <p style="margin:0; font-size:12px; color:#a5b4fc;">Clinical Laboratory</p>
-                </div>
-            </div>
-        </div>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <p style="margin: 0 0 8px 0; color: #64748b; font-size: 14px;">Active Samples</p>
+        <h2 style="margin: 0 0 8px 0;">{{ stats.active_samples }}</h2>
+        <span style="color:green; font-size: 14px;">+{{ stats.active_samples|default:0 }} Active</span>
+    </div>
 
-        <nav style="padding:16px; display:flex; flex-direction:column; gap:6px;">
-            <a href="#" style="color:white; padding:10px; background:#4338ca; border-radius:8px;">Dashboard</a>
-            <a href="#" style="color:#a5b4fc; padding:10px;">Tests</a>
-            <a href="#" style="color:#a5b4fc; padding:10px;">Samples</a>
-            <a href="#" style="color:#a5b4fc; padding:10px;">Reports</a>
-        </nav>
-    </aside>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <p style="margin: 0 0 8px 0; color: #64748b; font-size: 14px;">Completed Today</p>
+        <h2 style="margin: 0 0 8px 0;">{{ stats.completed_today }}</h2>
+        <span style="color:green; font-size: 14px;">+{{ stats.completed_today|default:0 }} Today</span>
+    </div>
 
-    <!-- Main -->
-    <div style="flex:1; display:flex; flex-direction:column;">
-
-        <!-- Header -->
-        <header style="background:white; padding:16px; display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0;">
-            
-            <input type="text" placeholder="Search..."
-                style="padding:8px; border:1px solid #cbd5e1; border-radius:8px; width:300px;">
-
-            <div style="display:flex; gap:10px; align-items:center;">
-                <button style="background:none; border:none;">
-                    <i data-lucide="bell"></i>
-                </button>
-
-                <a href="{% url 'laboratory_profile' %}" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:inherit;">
-                    <div style="text-align: right;">
-                        <p style="margin:0; font-weight: 600;">{{ laboratory.laboratory_name }}</p>
-                        <small style="color:#64748b;">{{ laboratory.laboratory_speciality|default:"Laboratory Admin" }}</small>
-                    </div>
-                    <div style="background:#4f46e5; color:white; width: 40px; height: 40px; border-radius:50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                        {% if laboratory.laboratory_image %}
-                            <img src="{{ laboratory.laboratory_image.url }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
-                        {% else %}
-                            <i data-lucide="user"></i>
-                        {% endif %}
-                    </div>
-                </a>
-            </div>
-        </header>
-
-        <!-- Content -->
-        <main style="padding:20px; overflow:auto;">
-
-            <!-- Stats -->
-            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:20px;">
-                
-                <div style="background:white; padding:20px; border-radius:8px;">
-                    <p>Total Tests</p>
-                    <h2>2,847</h2>
-                    <span style="color:green;">+12.5%</span>
-                </div>
-
-                <div style="background:white; padding:20px; border-radius:8px;">
-                    <p>Active Samples</p>
-                    <h2>156</h2>
-                    <span style="color:green;">+4.3%</span>
-                </div>
-
-                <div style="background:white; padding:20px; border-radius:8px;">
-                    <p>Completed</p>
-                    <h2>89</h2>
-                    <span style="color:green;">+8.1%</span>
-                </div>
-
-                <div style="background:white; padding:20px; border-radius:8px;">
-                    <p>Pending</p>
-                    <h2>23</h2>
-                    <span style="color:red;">-2.4%</span>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <div style="background:white; border-radius:8px; padding:20px;">
-                <h3>Recent Tests</h3>
-
-                <table style="width:100%; border-collapse:collapse;">
-                    <thead style="background:#f8fafc;">
-                        <tr>
-                            <th style="padding:10px;">Test ID</th>
-                            <th>Patient</th>
-                            <th>Test</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td style="padding:10px;">LAB-001</td>
-                            <td>John</td>
-                            <td>Blood</td>
-                            <td><span style="background:#dcfce7; padding:5px;">Completed</span></td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:10px;">LAB-002</td>
-                            <td>Emma</td>
-                            <td>Lipid</td>
-                            <td><span style="background:#dbeafe; padding:5px;">Processing</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </main>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <p style="margin: 0 0 8px 0; color: #64748b; font-size: 14px;">Pending Results</p>
+        <h2 style="margin: 0 0 8px 0;">{{ stats.pending_results }}</h2>
+        <span style="color:red; font-size: 14px;">{{ stats.pending_results|default:0 }} Pending</span>
     </div>
 </div>
 
-<script>
-lucide.createIcons();
-</script>
+<!-- Table -->
+<div style="background:white; border-radius:8px; padding:20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0;">Recent Tests</h3>
+        <a href="{% url 'lab_tests' %}" style="color: #4338ca; text-decoration: none; font-size: 14px; font-weight: 600;">View All</a>
+    </div>
 
-</body>
-</html>
+    <table style="width:100%; border-collapse:collapse;">
+        <thead style="background:#f8fafc;">
+            <tr>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Test ID</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Patient</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Test</th>
+                <th style="padding:12px 10px; text-align: left; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0;">Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for test in tests %}
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding:16px 10px; font-weight: 500;">{{ test.test_id }}</td>
+                <td style="padding:16px 10px;">{{ test.patient_name }}</td>
+                <td style="padding:16px 10px;">{{ test.test_type }}</td>
+                <td style="padding:16px 10px;">
+                    <span style="{% if test.status == 'Completed' %}background:#dcfce7; color: #166534;{% elif test.status == 'In Progress' %}background:#dbeafe; color: #1e40af;{% else %}background:#fee2e2; color: #991b1b;{% endif %} padding:4px 12px; border-radius:12px; font-size: 13px; font-weight: 500;">
+                        {{ test.status }}
+                    </span>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center; padding:40px; color: #64748b;">No results found for your search.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
