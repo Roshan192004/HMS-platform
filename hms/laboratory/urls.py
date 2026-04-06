@@ -10,4 +10,5 @@ urlpatterns = [
     path('tests/', views.lab_tests, name='lab_tests'),
     path('samples/', views.lab_samples, name='lab_samples'),
     path('reports/', views.lab_reports, name='lab_reports'),
+    path('logout/', views.laboratory_logout, name='laboratory_logout'),
 ]

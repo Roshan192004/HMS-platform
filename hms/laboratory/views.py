@@ -59,7 +59,7 @@ def laboratory_login(request):
             request.session['laboratory_id'] = user.id
             request.session['laboratory_name'] = user.laboratory_name
 
-            return redirect('landing')
+            return redirect('laboratory_dashboard')
 
         except laboratory.DoesNotExist:
             print("User NOT found in DB")
@@ -135,3 +135,8 @@ def lab_reports(request):
     lab = laboratory.objects.get(id=laboratory_id)
     tests = LabTest.objects.filter(status='Completed').order_by('-date')
     return render(request, 'laboratory/lab_reports.html', {'tests': tests, 'laboratory': lab})
+
+# =========logout
+def laboratory_logout(request):
+    request.session.flush()  # Clear all session data
+    return redirect('home')
