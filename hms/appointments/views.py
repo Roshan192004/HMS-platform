@@ -45,7 +45,8 @@ def appointment(request):
             appointment_data = appointment_data,
             appointment_time = appointment_time,
             doctor = doctor,
-            reason = reason
+            reason = reason,
+            status = 'Pending'
         )
         m=patient.objects.filter(
             patient_name = patient_name
@@ -54,8 +55,8 @@ def appointment(request):
             request.session['patient_id'] = m.id 
              
         send_mail(
-            subject= "Appointment Scheduled",
-            message=f"Hello {patient_name}, Your appointment is scheduled on {appointment_data} with Dr.{doctor}",
+            subject= "Appointment Request Received",
+            message=f"Hello {patient_name}, Your appointment request for {appointment_data} with Dr.{doctor} has been received and is pending approval by the reception.",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[patient_email],
             fail_silently=False
@@ -63,14 +64,15 @@ def appointment(request):
         return redirect('base_patient')
             
     return render(request,'appointments/book_appointment.html')
-def my_appointment(request):
 
-        patient_id = request.session.get('patient_id')
-        if not patient_id:
-            return redirect('login_patient')
-        patient_obj = patient.objects.get(id=patient_id)
-        m = appointments.objects.filter(
-            patient_name=patient_obj.patient_name
-        )
-        return render(request,'appointments/patient_my_appointment.html',{'m9':m})
+def my_appointment(request):
+    patient_id = request.session.get('patient_id')
+    if not patient_id:
+        return redirect('login_patient')
+    patient_obj = patient.objects.get(id=patient_id)
+    # Show all appointments (Pending, Accepted, Rejected) so patient can see status
+    m = appointments.objects.filter(
+        patient_name=patient_obj.patient_name
+    ).order_by('-appointment_data')
+    return render(request,'appointments/patient_my_appointment.html',{'m9':m})
         
