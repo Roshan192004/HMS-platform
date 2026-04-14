@@ -139,7 +139,7 @@ python manage.py runserver
 
 ## 👨‍💻 Author
 
-Amanjot Singh  
+Roshan Pal 
 B.Tech CSE | Full Stack Developer | Data Analyst
 
 ## ❤️ Show some love
