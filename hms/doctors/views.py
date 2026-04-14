@@ -66,13 +66,15 @@ def doctor_dashboard(request):
 
     today_appointments = appointments.objects.filter(
         doctor=db.doctor_name,
-        appointment_data=today
+        appointment_data=today,
+        status='Accepted'
     )
 
     total_today = today_appointments.count()
 
     total_all = appointments.objects.filter(
-        doctor=db.doctor_name
+        doctor=db.doctor_name,
+        status='Accepted'
     ).count()
 
     prescribed_patients = prescription.objects.filter(
@@ -97,7 +99,7 @@ def doctor_dashboard(request):
 def my_appointment(request):
     d = request.session.get('doctor_id')
     k = doctor.objects.get(id = d)
-    m = appointments.objects.filter(doctor=k.doctor_name)
+    m = appointments.objects.filter(doctor=k.doctor_name, status='Accepted')
     return render(request,'doctors/my_appointments.html',{'q':m})
 
 def patient_record(request):
@@ -105,7 +107,7 @@ def patient_record(request):
 
     m = doctor.objects.get(id=k)   # single doctor
 
-    a = appointments.objects.filter(doctor=m)  # all appointments
+    a = appointments.objects.filter(doctor=m.doctor_name, status='Accepted')  # all accepted appointments
     # p = patient.objects.filter(patient_name = a.patient)
 
     return render(request, 'doctors/patient_record.html', {
@@ -116,7 +118,7 @@ def patient_record(request):
 def create_prescription(request):
     d = request.session.get('doctor_id')
     d2 = doctor.objects.get(id = d)
-    f = appointments.objects.filter(doctor = d2)
+    f = appointments.objects.filter(doctor = d2.doctor_name, status='Accepted')
     if request.method == 'POST':
 
         patient_name  = request.POST.get('patient_name')
