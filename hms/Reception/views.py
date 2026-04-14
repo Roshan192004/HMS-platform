@@ -10,13 +10,52 @@ def reception_dashboard(request):
     p = patient.objects.count()
     d = doctor.objects.count()
     today = timezone.now().date()
-    a = appointments.objects.filter(appointment_data  = today).count()
-    return render(request,'Reception/reception_dashboard.html',
-                  {'pcount':p ,
-                   'dcount':d,
-                   'a':a},
-                   )
-    # return render(request, "Reception/reception_dashboard.html")
+    # Count of pending appointments for today
+    a = appointments.objects.filter(appointment_data=today, status='Pending').count()
+    # Count of accepted appointments for today (actual appointments)
+    accepted_today = appointments.objects.filter(appointment_data=today, status='Accepted').count()
+    return render(request, 'Reception/reception_dashboard.html',
+                  {'pcount': p,
+                   'dcount': d,
+                   'a': a,
+                   'accepted_today': accepted_today},
+                  )
+
+def manage_appointments(request):
+    # View all pending appointment requests
+    pending = appointments.objects.filter(status='Pending').order_by('appointment_data')
+    return render(request, 'Reception/appointments.html', {'pending': pending})
+
+def approve_appointment(request, id):
+    appt = appointments.objects.get(id=id)
+    appt.status = 'Accepted'
+    appt.save()
+    
+    # Notify patient
+    send_mail(
+        subject="Appointment Confirmed",
+        message=f"Hello {appt.patient_name}, Your appointment request for {appt.appointment_data} with Dr. {appt.doctor} has been confirmed.",
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[appt.patient_email],
+        fail_silently=False
+    )
+    return redirect('manage_appointments')
+
+def reject_appointment(request, id):
+    appt = appointments.objects.get(id=id)
+    appt.status = 'Rejected'
+    appt.save()
+    
+    # Notify patient
+    send_mail(
+        subject="Appointment Request Update",
+        message=f"Hello {appt.patient_name}, We regret to inform you that your appointment request for {appt.appointment_data} could not be scheduled at this time.",
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[appt.patient_email],
+        fail_silently=False
+    )
+    return redirect('manage_appointments')
+
 def pre_receptionist(request):
     receptionist_id = request.session.get('receptionist_id')
 
