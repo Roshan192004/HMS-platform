@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Requests</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f4f6ff;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9ff;
+        }
+
+        .action-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        .btn-approve {
+            background-color: #28a745;
+        }
+
+        .btn-approve:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .btn-reject {
+            background-color: #dc3545;
+        }
+
+        .btn-reject:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .btn-back {
+            background-color: #764ba2;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .no-requests {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="{% url 'reception_dashboard' %}" class="btn btn-back">← Back to Dashboard</a>
+    <h1>Pending Appointment Requests</h1>
+
+    {% if pending %}
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appt in pending %}
+            <tr>
+                <td>{{ appt.patient_name }}</td>
+                <td>{{ appt.doctor }}</td>
+                <td>{{ appt.appointment_data }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.reason }}</td>
+                <td>
+                    <div class="action-container">
+                        <a href="{% url 'approve_appointment' appt.id %}" class="btn btn-approve">Approve</a>
+                        <a href="{% url 'reject_appointment' appt.id %}" class="btn btn-reject">Reject</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="no-requests">
+        <p>No pending appointment requests at the moment.</p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
