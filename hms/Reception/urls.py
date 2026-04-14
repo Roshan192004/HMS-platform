@@ -8,5 +8,7 @@ urlpatterns = [
     path('register_receptionist/', views.receptionist_register, name='register_receptionist'),  # Remove 'accounts/'
     path('all_patient/', views.all_patient, name='all_patient'),  # Remove 'accounts/'
     path('all_doctor/', views.all_doctor, name='all_doctor'),  # Remove 'accounts/'
-
+    path('manage_appointments/', views.manage_appointments, name='manage_appointments'),
+    path('approve_appointment/<int:id>/', views.approve_appointment, name='approve_appointment'),
+    path('reject_appointment/<int:id>/', views.reject_appointment, name='reject_appointment'),
 ]
