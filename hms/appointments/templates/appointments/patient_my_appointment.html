@@ -157,9 +157,21 @@
         </div>
 
         <div class="row">
-            <div class="box full">
+            <div class="box">
                 <div class="label">Doctor</div>
                 <div class="value">{{ i.doctor }}</div>
+            </div>
+            
+            <div class="box">
+                <div class="label">Status</div>
+                <div class="value" style="margin-top:10px;">
+                    <span style="padding: 4px 8px; border-radius: 4px; font-size: 14px; font-weight: bold;
+                        {% if i.status == 'Accepted' %}background-color: #d4edda; color: #155724;
+                        {% elif i.status == 'Rejected' %}background-color: #f8d7da; color: #721c24;
+                        {% else %}background-color: #fff3cd; color: #856404;{% endif %}">
+                        {{ i.status }}
+                    </span>
+                </div>
             </div>
         </div>
 
