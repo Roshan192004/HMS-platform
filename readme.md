@@ -140,6 +140,7 @@ python manage.py runserver
 ## 👨‍💻 Author
 
 Roshan Pal 
+
 B.Tech CSE | Full Stack Developer | Data Analyst
 
 ## ❤️ Show some love
