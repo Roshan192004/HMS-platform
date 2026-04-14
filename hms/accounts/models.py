@@ -39,6 +39,11 @@ class receptionist(models.Model):
         return self.receptionist_name
 
 class appointments(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
+    ]
     patient_name  = models.CharField(max_length=20)
     patient_age = models.IntegerField(null=True, blank=True)
     patient_email = models.EmailField()
@@ -47,6 +52,7 @@ class appointments(models.Model):
     appointment_time = models.TimeField()
     doctor = models.CharField(max_length=20)
     reason = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     def __str__(self):
         return self.patient_name
 # ================================================================
