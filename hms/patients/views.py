@@ -116,12 +116,19 @@ def base_patient(request):
     if not patient_id:
         return redirect('login_patient')
     m = patient.objects.get(id = patient_id)
+    # Count of all accepted appointments for this patient
     appointment_count = appointments.objects.filter(
-        patient_name=m.patient_name
+        patient_name=m.patient_name,
+        status='Accepted'
     ).count()
     pt = m.patient_name
     p = datetime.today().date()
-    k = appointments.objects.filter(appointment_data = p , patient_name = pt).count()
+    # Count of today's accepted appointments
+    k = appointments.objects.filter(
+        appointment_data = p, 
+        patient_name = pt,
+        status='Accepted'
+    ).count()
     return render(request,'patients/base_patient.html',{
         'm':m,
         'count':appointment_count,
